@@ -6,7 +6,7 @@ LIBPATH?=/usr/lib64
 #LIBPATH=/usr/lib/x86_64-linux-gnu
 
 LIBS?=
-VERSION=0.2.3
+VERSION=0.2.4
 CC?=gcc
 CFLAGS?=-O2 -g -Wall
 LDFLAGS=$(LIBS)
@@ -76,6 +76,13 @@ check: ipcalc
 	./ipcalc --addrspace -bmnp fd0b:a336:4e7d::/48 > out.tmp && cmp out.tmp tests/fd0b:a336:4e7d::-48
 	./ipcalc -i 2a03:2880:20:4f06:face:b00c:0:1 > out.tmp && cmp out.tmp tests/i-2a03:2880:20:4f06:face:b00c:0:1
 	./ipcalc -i fd0b:a336:4e7d::/48 > out.tmp && cmp out.tmp tests/i-fd0b:a336:4e7d::-48
+ifeq ($(USE_MAXMIND),yes)
+	./ipcalc -g 217.31.205.50 > out.tmp && cmp out.tmp tests/217.31.205.50-maxmind
+else
+ifeq ($(USE_GEOIP),yes)
+	./ipcalc -g 217.31.205.50 > out.tmp && cmp out.tmp tests/217.31.205.50-geoip
+endif
+endif
 	test "$(SPLIT_LINES_IPV6)" = "$(SPLIT_TOTAL_IPV6)"
 	test "$(SPLIT_LINES)" = "$(SPLIT_TOTAL)"
 	./ipcalc-tests

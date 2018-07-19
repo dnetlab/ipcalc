@@ -39,4 +39,3 @@ fedora.dyn_maxmind_with_asan:
     - USE_GEOIP=no USE_RUNTIME_LINKING=yes USE_MAXMIND=yes CFLAGS="-fsanitize=address -O2 -g -Werror" make
     - export ASAN_OPTIONS="detect_leaks=0"
     - make check
-    - ./ipcalc -g 217.31.205.50
