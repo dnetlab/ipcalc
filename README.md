@@ -96,3 +96,40 @@ ADDRSPACE="Global Unicast"
 COUNTRY="Ireland"
 ```
 
+## Makefile For Openwrt
+```Makefile
+include $(TOPDIR)/rules.mk
+
+PKG_NAME:=ipcalc
+PKG_VERSION:=0.2.5
+
+PKG_SOURCE_PROTO:=git
+PKG_SOURCE_URL:=https://github.com/dnetlab/ipcalc.git
+PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
+PKG_SOURCE_VERSION:=20ad0ce4b3358e13721ed0aee416523840efc7ec
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_VERSION).tar.gz
+
+include $(INCLUDE_DIR)/package.mk
+
+define Package/$(PKG_NAME)
+	SECTION  := utils
+ 	CATEGORY := SiteView
+	TITLE    := an IPV4/IPV6 ipcalc tool
+endef
+
+# define Build/Prepare
+	# mkdir -p $(PKG_BUILD_DIR)
+	# $(CP) ./src/* $(PKG_BUILD_DIR)
+# endef
+
+MAKE_VARS += \
+	USE_GEOIP=no \
+	USE_MAXMIND=no
+
+define Package/$(PKG_NAME)/install
+	$(INSTALL_DIR) $(1)/usr/sbin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/ipcalc $(1)/usr/sbin/
+endef
+
+$(eval $(call BuildPackage,$(PKG_NAME)))
+```
