@@ -30,7 +30,6 @@ with no support for geo-information.
 $ make USE_GEOIP=no USE_MAXMIND=no
 ```
 
-
 # Examples
 
 ## IPv4
